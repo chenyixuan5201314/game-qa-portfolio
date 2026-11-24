@@ -38,8 +38,15 @@ def test_资源不足时不扣不抽():
 # 2. 边界：第 89 抽不该出五星
 #    提示：循环 88 次，第 89 次 draw 后断言 hit is False
 # def test_...():
-#     ...
-
+# 
+def test_第89抽不该出5星():
+    s = new_state()
+    s ["currency"]=99999
+    for _ in range(PITY_MAX - 2):
+        draw(s,False)
+    result = draw(s,False)
+    assert result["hit"] is False
+    assert s["pity"]==89
 
 # 3. 歪了之后，guaranteed 变 True
 #    提示：draw(s, True, is_up=False) 之后看 s["guaranteed"]
@@ -54,7 +61,13 @@ def test_歪了之后进入大保底():
 # 4. 大保底出货后，guaranteed 变回 False
 #    提示：先歪一次，再 draw(s, True, is_up=True)
 # def test_...():
-#     ...
+#
+def test_大保底出货后归False():
+    s = new_state()
+    draw(s,True,is_up=False)
+    assert s["guaranteed"] is True
+    draw(s,True,is_up=True)
+    assert s["guaranteed"] is False
 
 
 # 5. 连点两次：扣 320，总抽数 2
